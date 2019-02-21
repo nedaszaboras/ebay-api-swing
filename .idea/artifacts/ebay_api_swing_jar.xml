@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="ebay-api-swing:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/ebay_api_swing_jar</output-path>
+    <root id="archive" name="ebay-api-swing.jar">
+      <element id="module-output" name="ebay-api-swing" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../untitled/json-20180813.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../untitled/gson-2.8.5.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
