@@ -6,6 +6,9 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Objects;
 
 public class Main {
 
@@ -16,71 +19,65 @@ public class Main {
     private JTable results;
     private JScrollPane scroll;
     private JLabel resultCount;
-    private EbayAPI ebayAPI;
+    private JLabel totalResultsCount;
+    private EbayItem ebayItem;
     String input;
     String url;
     String name;
     String condition;
-    String price;
-    String shipping;
-
-
-
-   /* @Override
-    public void start(Stage primaryStage) throws Exception{
-
-        //primaryStage.show();
-
-    }*/
+    float price;
+    float shipping;
+    String key;
+    int t;
 
 
     public Main() {
 
-        ebayAPI = new EbayAPI();
-        ebayAPI.main = this;
-
+        try {
+            key = new String(Files.readAllBytes(Paths.get("ebay_key.txt")));
+        }
+        catch (Exception e) {
+            System.out.println("Key file exception : " +e);
+        }
 
         String col[] = {"Name", "Condition", "Price", "Shipping", "URL"};
         DefaultTableModel tableModel = new DefaultTableModel(col,0);
         //tableModel.addColumn(col);
         //tableModel.addRow(col);
 
-
-
         results.setModel(tableModel);
         results.setRowHeight(35);
-
-
 
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                tableModel.setRowCount(0);
+                resultCount.setText("");
+                totalResultsCount.setText("");
+
                 input = inputTextField.getText();
-                ebayAPI.Create();
-                System.out.println("response from MAIN" +ebayAPI.getNames(ebayAPI.response));
 
-                //resultList.setVisibleRowCount(ebayAPI.resultCount);
+                ebayItem = new EbayItem(input, key);
 
-                for (int i = 0; i <= ebayAPI.resultCount; i++){
-                    url = ebayAPI.getUrl(ebayAPI.response).get(i).toString();
-                    name = ebayAPI.getNames(ebayAPI.response).get(i).toString();
-                    price = ebayAPI.getPrices(ebayAPI.response).get(i).toString();
-                    condition = ebayAPI.getCondition(ebayAPI.response).get(i).toString();
-                    shipping = ebayAPI.getShippingPrices(ebayAPI.response).get(i).toString();
+                System.out.println("parsed data in main : size " +ebayItem.parsedData.size());
+                System.out.println("total result count : " +ebayItem.parsedData.get(0).totalresults);
+
+                for (int i = 0; i < ebayItem.parsedData.size(); i++) {
+
+                    url = ebayItem.parsedData.get(i).url;
+                    name = ebayItem.parsedData.get(i).name;
+                    condition = ebayItem.parsedData.get(i).condition;
+                    price = ebayItem.parsedData.get(i).price;
+                    shipping = ebayItem.parsedData.get(i).shippingPrice;
 
                     Object[] data = {name, condition, price, shipping, url};
                     tableModel.addRow(data);
-                    int t = i +1;
-                    resultCount.setText("rezultatų kiekis " + t);
                 }
 
-
-
+                resultCount.setText("Rodomų rezultatų kiekis " + tableModel.getRowCount());
+                totalResultsCount.setText("Viso rastų rezultatų kiekis " + ebayItem.parsedData.get(0).totalresults);
             }
         });
-
-
-
     }
 
     public static void main(String[] args) {
@@ -89,10 +86,6 @@ public class Main {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
-
-
-
-
 
     }
 }
