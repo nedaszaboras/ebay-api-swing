@@ -1,75 +1,143 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="sample.Main">
-  <grid id="27dc6" binding="mainPanel" layout-manager="GridLayoutManager" row-count="5" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-    <margin top="0" left="0" bottom="0" right="0"/>
+  <tabbedpane id="fc1c6" binding="firstPane">
     <constraints>
-      <xy x="20" y="20" width="929" height="546"/>
+      <xy x="20" y="20" width="929" height="561"/>
     </constraints>
     <properties/>
     <border type="none"/>
     <children>
-      <component id="a2e2b" class="javax.swing.JButton" binding="startButton" default-binding="true">
+      <grid id="b11a7" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
-          <grid row="2" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <text value="Start"/>
-        </properties>
-      </component>
-      <component id="6cd25" class="javax.swing.JTextField" binding="inputTextField" default-binding="true">
-        <constraints>
-          <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="7" anchor="0" fill="1" indent="0" use-parent-layout="false">
-            <preferred-size width="75" height="5"/>
-          </grid>
-        </constraints>
-        <properties>
-          <inheritsPopupMenu value="true"/>
-          <margin top="2" left="5" bottom="2" right="5"/>
-          <selectionEnd value="0"/>
-          <text value=""/>
-        </properties>
-      </component>
-      <scrollpane id="ac30f" binding="scroll">
-        <constraints>
-          <grid row="4" column="0" row-span="1" col-span="2" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <tabbedpane title="Main"/>
         </constraints>
         <properties/>
-        <border type="none" title=""/>
+        <border type="none"/>
         <children>
-          <component id="1da48" class="javax.swing.JTable" binding="results">
-            <constraints/>
-            <properties>
-              <autoResizeMode value="1"/>
-              <intercellSpacing width="4" height="1"/>
-              <preferredScrollableViewportSize width="600" height="400"/>
-            </properties>
-          </component>
+          <grid id="27dc6" binding="mainPanel" layout-manager="GridLayoutManager" row-count="5" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <scrollpane id="ac30f" binding="scroll">
+                <constraints>
+                  <grid row="3" column="0" row-span="2" col-span="5" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <preferred-size width="602" height="300"/>
+                  </grid>
+                </constraints>
+                <properties/>
+                <border type="none" title=""/>
+                <children>
+                  <component id="1da48" class="javax.swing.JTable" binding="results">
+                    <constraints/>
+                    <properties>
+                      <autoResizeMode value="1"/>
+                      <intercellSpacing width="4" height="1"/>
+                      <preferredScrollableViewportSize width="600" height="400"/>
+                    </properties>
+                  </component>
+                </children>
+              </scrollpane>
+              <component id="28d64" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="5" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Įveskite produktų sąrašą"/>
+                </properties>
+              </component>
+              <component id="242a9" class="javax.swing.JLabel" binding="resultCount">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="10" fill="0" indent="0" use-parent-layout="false">
+                    <preferred-size width="0" height="192"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <text value=""/>
+                  <verticalAlignment value="3"/>
+                  <verticalTextPosition value="3"/>
+                </properties>
+              </component>
+              <component id="b94d7" class="javax.swing.JLabel" binding="totalResultsCount">
+                <constraints>
+                  <grid row="1" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="6" fill="0" indent="0" use-parent-layout="false">
+                    <preferred-size width="0" height="192"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <text value=""/>
+                  <verticalAlignment value="3"/>
+                  <verticalTextPosition value="3"/>
+                </properties>
+              </component>
+              <component id="a2e2b" class="javax.swing.JButton" binding="startButton" default-binding="true">
+                <constraints>
+                  <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Start"/>
+                </properties>
+              </component>
+              <scrollpane id="ee539">
+                <constraints>
+                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="d7d91" class="javax.swing.JTextArea" binding="inputJTextArea">
+                    <constraints/>
+                    <properties/>
+                  </component>
+                </children>
+              </scrollpane>
+            </children>
+          </grid>
         </children>
-      </scrollpane>
-      <component id="28d64" class="javax.swing.JLabel">
+      </grid>
+      <grid id="6c6d0" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
-          <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+          <tabbedpane title="Tree"/>
         </constraints>
-        <properties>
-          <text value="Įveskite produkto pavadinimą"/>
-        </properties>
-      </component>
-      <component id="242a9" class="javax.swing.JLabel" binding="resultCount">
-        <constraints>
-          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <text value=""/>
-        </properties>
-      </component>
-      <component id="b94d7" class="javax.swing.JLabel" binding="totalResultsCount">
-        <constraints>
-          <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <text value=""/>
-        </properties>
-      </component>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <scrollpane id="51bf4" binding="treeScroll">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                <maximum-size width="1000" height="1000"/>
+              </grid>
+            </constraints>
+            <properties>
+              <autoscrolls value="true"/>
+              <enabled value="true"/>
+              <horizontalScrollBarPolicy value="32"/>
+              <verticalScrollBarPolicy value="22"/>
+            </properties>
+            <border type="none">
+              <font/>
+            </border>
+            <children>
+              <component id="77158" class="javax.swing.JTree" binding="tree">
+                <constraints/>
+                <properties>
+                  <dragEnabled value="true"/>
+                  <inheritsPopupMenu value="false"/>
+                  <invokesStopCellEditing value="false"/>
+                  <largeModel value="false"/>
+                  <preferredSize width="300" height="72"/>
+                  <scrollsOnExpand value="false"/>
+                </properties>
+              </component>
+            </children>
+          </scrollpane>
+        </children>
+      </grid>
     </children>
-  </grid>
+  </tabbedpane>
 </form>
