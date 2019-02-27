@@ -13,6 +13,7 @@ import java.awt.event.MouseEvent;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Objects;
 
 public class Main {
@@ -28,23 +29,19 @@ public class Main {
     private JTree tree;
     private JTabbedPane firstPane;
     private JScrollPane treeScroll;
-    private JButton inputsButton;
     private EbayItem ebayItem;
-
-    String url;
-    String name;
-    String condition;
-    float price;
-    float shipping;
 
     public String key;
     public String[] inputArray;
-    int sum = 0;
-    float averagePrices = 0;
-
+    int totalresults;
+    int totalresultsSum;
+    int showingresultsSum;
+    float maxPrice;
+    float minPrice;
 
     ArrayList<String> queryNames = new ArrayList<String>();
     ArrayList<EbayItem> ebayItemList = new ArrayList<EbayItem>();
+    ArrayList<Float> prices = new ArrayList<Float>();
 
 
 
@@ -58,7 +55,7 @@ public class Main {
             System.out.println("Key file exception : " +e);
         }
 
-        String col[] = {"Results"};
+        String col[] = {"Name", "Min Price", "Max Price", "Total results found"};
         DefaultMutableTreeNode root = new DefaultMutableTreeNode("Results");
 
         DefaultTableModel tableModel = new DefaultTableModel(col,0){
@@ -71,7 +68,8 @@ public class Main {
 
         tree.setModel(treeModel);
         results.setModel(tableModel);
-        results.setRowHeight(35);
+        results.setRowHeight(25);
+        results.getColumnModel().getColumn(0).setPreferredWidth(300);
 
         startButton.addActionListener(new ActionListener() {
             @Override
@@ -79,42 +77,38 @@ public class Main {
                 tableModel.setRowCount(0);
                 resultCount.setText("");
                 totalResultsCount.setText("");
+                ebayItemList.clear();
+                root.removeAllChildren();
+                tree.revalidate();
+                tree.repaint();
+                tree.updateUI();
 
-                //input = inputTextField.getText();
                 inputArray = inputJTextArea.getText().split("\\n");
                 for (int j = 0; j < inputArray.length; j++) {
 
                     ebayItem = new EbayItem(inputArray[j], key);
                     ebayItemList.add(ebayItem);
 
-                    sum += ebayItem.parsedData.get(j).totalresults;
-                    totalResultsCount.setText("Viso rastų rezultatų kiekis " + sum + " ");
-
                     DefaultMutableTreeNode inputNames = new DefaultMutableTreeNode(inputArray[j]);
                     root.add(inputNames);
+
+                    if (ebayItem.parsedData.size() != 0) totalresults = ebayItem.parsedData.get(j).totalresults;
+                    else totalresults = 0;
 
                     System.out.println("parsed data in main : size " + ebayItem.parsedData.size());
                     System.out.println("total result count @ " + inputArray[j] + " : " + ebayItem.parsedData.get(j).totalresults);
 
-                        name = inputArray[j] + " | Price average : " + averagePrices + " | Item count : " + ebayItem.parsedData.size();
-                        Object[] data = {name};
-                        tableModel.addRow(data);
+                    totalresultsSum += totalresults;
+                    showingresultsSum += ebayItem.parsedData.size();
+
+                    totalResultsCount.setText("Viso rastų rezultatų kiekis " + totalresultsSum + " ");
+                    resultCount.setText(" Rodomų rezultatų kiekis " + showingresultsSum);
 
                     for (int i = 0; i < ebayItem.parsedData.size(); i++) {
 
-                        /*url = ebayItem.parsedData.get(i).url;
-                        name = ebayItem.parsedData.get(i).name;
-                        condition = ebayItem.parsedData.get(i).condition;
-                        price = ebayItem.parsedData.get(i).price;
-                        shipping = ebayItem.parsedData.get(i).shippingPrice;
+                        prices.add(ebayItem.parsedData.get(i).price + ebayItem.parsedData.get(i).shippingPrice);
 
-                        Object[] data = {name, condition, price, shipping, url};
-                        tableModel.addRow(data);*/
-
-
-
-
-                        DefaultMutableTreeNode resultNames = new DefaultMutableTreeNode(ebayItem.parsedData.get(i).name + " | Price : " +ebayItem.parsedData.get(i).price);
+                        DefaultMutableTreeNode resultNames = new DefaultMutableTreeNode("Price : " +ebayItem.parsedData.get(i).price + " | " +ebayItem.parsedData.get(i).name);
                         inputNames.add(resultNames);
 
                         DefaultMutableTreeNode resultPrice = new DefaultMutableTreeNode("Price : " +ebayItem.parsedData.get(i).price);
@@ -125,12 +119,20 @@ public class Main {
                         resultNames.add(resultCondition);
                         resultNames.add(resultShippingPrice);
 
+                        maxPrice = Collections.max(prices);
+                        minPrice = Collections.min(prices);
+
+
                     }
+
+                    Object[] data = {inputArray[j], minPrice, maxPrice, totalresults};
+                    tableModel.addRow(data);
+
+                    prices.clear();
+
                 }
-
-                resultCount.setText(" Rodomų rezultatų kiekis " + tableModel.getRowCount());
-
             }
+
         });
 
         results.addMouseListener(new MouseAdapter() {
@@ -139,10 +141,6 @@ public class Main {
                 if (e.getClickCount() == 2) {
                     JTable target = (JTable) e.getSource();
                     int row = target.getSelectedRow();
-                    System.out.println("clicked row : " + row);
-                    //Table newTable = new Table();
-                    //newTable.setVisible(true);
-                    System.out.println("pirmas name @ main " + ebayItemList);
                     ResultsWindow table = new ResultsWindow(ebayItemList,row);
                     table.setVisible(true);
                 }

@@ -60,34 +60,37 @@ class EbayItem {
         rawData = jobject;
 
         for (int i = 0; i < findItemsByKeywordsResponse.size(); i++){
-            jobject = findItemsByKeywordsResponse.get(i).getAsJsonObject();
-            JsonArray searchResult = jobject.getAsJsonArray("searchResult");
-            JsonArray paginationOutput = jobject.getAsJsonArray("paginationOutput");
-            for(int j = 0; j < searchResult.size(); j++){
-                jobject = searchResult.get(j).getAsJsonObject();
-                JsonArray item = jobject.getAsJsonArray("item");
-                System.out.println("items in json : size " + item.size());
+                        jobject = findItemsByKeywordsResponse.get(i).getAsJsonObject();
+                        JsonArray searchResult = jobject.getAsJsonArray("searchResult");
+                        JsonArray paginationOutput = jobject.getAsJsonArray("paginationOutput");
 
-                for (int k = 0; k < item.size(); k++){
-                    EbayItemParsed parsed = new EbayItemParsed();
-                    jobject = item.get(k).getAsJsonObject();
+                        if (searchResult.get(0).getAsJsonObject().get("@count").getAsInt() != 0) {
 
-                    JsonArray condition = jobject.getAsJsonArray("condition");
-                    JsonArray listingInfo = jobject.getAsJsonArray("listingInfo");
-                    JsonArray sellingStatus = jobject.getAsJsonArray("sellingStatus");
-                    JsonArray shippingInfo = jobject.getAsJsonArray("shippingInfo");
+                            for (int j = 0; j < searchResult.size(); j++) {
+                                jobject = searchResult.get(j).getAsJsonObject();
+                                JsonArray item = jobject.getAsJsonArray("item");
 
-                    parsed.name = jobject.get("title").getAsString();
-                    parsed.url = jobject.get("viewItemURL").getAsString();
-                    parsed.price = sellingStatus.get(0).getAsJsonObject().getAsJsonArray("currentPrice").get(0).getAsJsonObject().get("__value__").getAsFloat();
-                    parsed.condition = condition.get(0).getAsJsonObject().get("conditionDisplayName").getAsString();
-                    parsed.shippingPrice = shippingInfo.get(0).getAsJsonObject().getAsJsonArray("shippingServiceCost").get(0).getAsJsonObject().get("__value__").getAsFloat();
-                    parsed.status = listingInfo.get(0).getAsJsonObject().get("listingType").getAsString();
-                    parsed.totalresults = paginationOutput.get(0).getAsJsonObject().get("totalEntries").getAsInt();
+                                for (int k = 0; k < item.size(); k++) {
+                                    EbayItemParsed parsed = new EbayItemParsed();
+                                    jobject = item.get(k).getAsJsonObject();
 
-                    parsedData.add(parsed);
-                }
-            }
+                                    JsonArray condition = jobject.getAsJsonArray("condition");
+                                    JsonArray listingInfo = jobject.getAsJsonArray("listingInfo");
+                                    JsonArray sellingStatus = jobject.getAsJsonArray("sellingStatus");
+                                    JsonArray shippingInfo = jobject.getAsJsonArray("shippingInfo");
+
+                                    parsed.name = jobject.get("title").getAsString();
+                                    parsed.url = jobject.get("viewItemURL").getAsString();
+                                    parsed.price = sellingStatus.get(0).getAsJsonObject().getAsJsonArray("currentPrice").get(0).getAsJsonObject().get("__value__").getAsFloat();
+                                    parsed.condition = condition.get(0).getAsJsonObject().get("conditionDisplayName").getAsString();
+                                    parsed.shippingPrice = shippingInfo.get(0).getAsJsonObject().getAsJsonArray("shippingServiceCost").get(0).getAsJsonObject().get("__value__").getAsFloat();
+                                    parsed.status = listingInfo.get(0).getAsJsonObject().get("listingType").getAsString();
+                                    parsed.totalresults = paginationOutput.get(0).getAsJsonObject().get("totalEntries").getAsInt();
+
+                                    parsedData.add(parsed);
+                                }
+                            }
+                        }
         }
     }
 }
